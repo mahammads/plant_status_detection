@@ -1,7 +1,6 @@
 
 import os
 from fastapi import FastAPI ,File, Form, UploadFile
-import config
 from color_detect import detect_category
 from pathlib import Path
 detect_cat = FastAPI()
