@@ -9,7 +9,7 @@ detect_cat = FastAPI()
 root_path = Path(os.getcwd())
 input_file_path = os.path.join(root_path, 'input')
 
-@detect_cat.get("/home/")
+@detect_cat.get("/")
 def read_root():
    return {"Status": "UP"}
 
