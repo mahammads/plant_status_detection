@@ -48,18 +48,23 @@ def affected_region(img_path):
     result_green = cv2.bitwise_and(img, img, mask=green_mask)
     result_yellow = cv2.bitwise_and(img, img, mask=yellow_mask)
     result_brown = cv2.bitwise_and(img, img, mask=brown_mask)
-
+    blank_result = ''
+    blank_perc = ''
     if green_perc >30:
         color = 'green'
         return result_green, color, green_perc
 
-    if yellow_perc > 30  and green_perc < 30:
+    elif yellow_perc > 30  and green_perc < 30:
         color = 'yellow'
         return result_yellow, color, yellow_perc
 
-    if brown_perc >30:
+    elif brown_perc >30:
         color = 'brown'
         return result_brown, color, brown_perc
+    
+    else:
+        color = 'unknow'
+        return blank_result, color, blank_perc
     
 def get_date_taken(filename):
     with open(filename, "rb") as palm_1_file:
@@ -77,19 +82,22 @@ def get_date_taken(filename):
 def detect_category(input_file):
     plant_status = ''
     action = ''
-    infrared_file = 'InfraBl.jpg'
     inf_img, color, perc =  affected_region(input_file)
     time_stamp = get_date_taken(input_file)
-    cv2.imwrite(infrared_file, inf_img)
+
     if color == 'green':
         plant_status = 'healthy'
         action = "plant status is good and healthy,"
-    if color == "yellow":
+    elif color == "yellow":
         plant_status = 'unhealthy'
         action = "improper watering, need to water regularly,"
-    if color == "brown":
+    elif color == "brown":
         plant_status = 'deceased'
         action = "plant is deceased less chancess to recover."
+    else :
+        color = 'unknown'
+        plant_status = 'not a plant'
+        action = "please try with another image."
 
     return color, plant_status, action, time_stamp
 
@@ -97,10 +105,10 @@ def detect_category(input_file):
 
 if __name__ == "__main__":
     pass
-    img_path = r"C:\Users\sarwa\Desktop\image_category\images\deadh.jpg"
-    output_name = 'InfraBl.jpg'
-    color, plant_status, action, time_taken =  detect_category(img_path)
+    # img_path = r"C:\Users\sarwa\Desktop\image_category\images\1669191739-healthy-plant.jpg"
+    # output_name = 'InfraBl.jpg'
+    # color, plant_status, action, time_taken =  detect_category(img_path)
    
-    print(color, plant_status, action, time_taken)
+    # print(color, plant_status, action, time_taken)
 
  
